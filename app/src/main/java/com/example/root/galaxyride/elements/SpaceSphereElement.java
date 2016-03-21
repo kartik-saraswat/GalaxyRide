@@ -21,7 +21,8 @@ public class SpaceSphereElement {
 
     private final int texturedResourceId;
     private final Sphere sphere;
-
+    public Material material;
+    Texture texture;
     private Vector3 previousPosition;
 
     public SpaceSphereElement(String name, float radius, Vector3 initPosition, int texturedResourceId) {
@@ -30,19 +31,22 @@ public class SpaceSphereElement {
         this.texturedResourceId = texturedResourceId;
         this.initPosition = initPosition;
         this.previousPosition = initPosition;
+        this.material = new Material();
+        this.texture = new Texture(this.name, this.texturedResourceId);
+        this.sphere = new Sphere(this.radius, 24, 24);
+    }
 
-        Material material = new Material();
-        material.enableLighting(true);
-        material.setDiffuseMethod(new DiffuseMethod.Lambert());
-        material.setColor(0);
-        Texture texture = new Texture(this.name, this.texturedResourceId);
+    public void initialize() {
+        this.material.enableLighting(true);
+        this.material.setDiffuseMethod(new DiffuseMethod.Lambert());
+        this.material.setColor(0);
+
         try {
-            material.addTexture(texture);
+            this.material.addTexture(this.texture);
         } catch (ATexture.TextureException error) {
-            Log.d("PLANET_DEBUG", "TEXTURE ERROR");
+            Log.d("SPHERE_SPACE", "TEXTURE ERROR");
         }
 
-        this.sphere = new Sphere(this.radius, 24, 24);
         this.sphere.setMaterial(material);
         this.sphere.setPosition(initPosition);
     }
@@ -76,6 +80,7 @@ public class SpaceSphereElement {
     }
 
     public void addToScene(RajawaliScene rajawaliScene) {
+        initialize();
         rajawaliScene.addChild(sphere);
     }
 
