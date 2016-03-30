@@ -19,6 +19,7 @@ import static com.example.root.galaxyride.elements.Star.STAR_SMALL;
 import static com.example.root.galaxyride.elements.Star.STAR_SUN;
 
 public class RajaRenderer extends RajawaliRenderer {
+    public boolean isSatelliteRotationEnabled = true;
     Context context;
     MyArcballCamera arcball;
 
@@ -31,10 +32,22 @@ public class RajaRenderer extends RajawaliRenderer {
     @Override
     protected void initScene() {
 
+        initStars();
+        initSatellites();
+        initNames();
+
+        arcball = new MyArcballCamera(mContext, ((Activity) mContext).findViewById(R.id.relative_layout), this);
+        arcball.setPosition(0, 0, 4);
+        getCurrentScene().replaceAndSwitchCamera(getCurrentCamera(), arcball);
+    }
+
+    void initStars() {
         STAR_SMALL.addToScene(getCurrentScene());
         STAR_SMALL.addChild(1000);
         STAR_SUN.addToScene(getCurrentScene());
+    }
 
+    void initSatellites() {
         PLANET_MERCURY.addToScene(getCurrentScene());
         PLANET_VENUS.addToScene(getCurrentScene());
         PLANET_EARTH.addToScene(getCurrentScene());
@@ -44,34 +57,39 @@ public class RajaRenderer extends RajawaliRenderer {
         PLANET_URANUS.addToScene(getCurrentScene());
         PLANET_NEPTUNE.addToScene(getCurrentScene());
         SATELLITE_MOON.addToScene(getCurrentScene());
-
-
-        // getCurrentScene().addChild(Geometry.xAxisLine);
-        // getCurrentScene().addChild(Geometry.yAxisLine);
-        // getCurrentScene().addChild(Geometry.zAxisLine);
-
-
-
-
-        arcball = new MyArcballCamera(mContext, ((Activity) mContext).findViewById(R.id.relative_layout));
-        arcball.setPosition(0, 0, 4);
-        getCurrentScene().replaceAndSwitchCamera(getCurrentCamera(), arcball);
     }
+
+    void initNames() {
+        STAR_SUN.addSphereName(getCurrentScene(), R.drawable.name_sun);
+        PLANET_MERCURY.addSphereName(getCurrentScene(), R.drawable.name_mercury);
+        PLANET_VENUS.addSphereName(getCurrentScene(), R.drawable.name_venus);
+        PLANET_EARTH.addSphereName(getCurrentScene(), R.drawable.name_earth);
+        PLANET_MARS.addSphereName(getCurrentScene(), R.drawable.name_mars);
+        PLANET_JUPITER.addSphereName(getCurrentScene(), R.drawable.name_jupiter);
+        PLANET_SATURN.addSphereName(getCurrentScene(), R.drawable.name_saturn);
+        PLANET_URANUS.addSphereName(getCurrentScene(), R.drawable.name_uranus);
+        PLANET_NEPTUNE.addSphereName(getCurrentScene(), R.drawable.name_neptune);
+        SATELLITE_MOON.addSphereName(getCurrentScene(), R.drawable.name_moon);
+    }
+
 
     @Override
     public void onRender(final long elapsedTime, final double deltaTime) {
         super.onRender(elapsedTime, deltaTime);
         STAR_SMALL.render();
         STAR_SUN.render();
-        PLANET_MERCURY.render();
-        PLANET_VENUS.render();
-        PLANET_EARTH.render();
-        PLANET_MARS.render();
-        PLANET_SATURN.render();
-        PLANET_JUPITER.render();
-        PLANET_URANUS.render();
-        PLANET_NEPTUNE.render();
-        SATELLITE_MOON.render();
+
+        if (isSatelliteRotationEnabled) {
+            PLANET_MERCURY.render();
+            PLANET_VENUS.render();
+            PLANET_EARTH.render();
+            PLANET_MARS.render();
+            PLANET_SATURN.render();
+            PLANET_JUPITER.render();
+            PLANET_URANUS.render();
+            PLANET_NEPTUNE.render();
+            SATELLITE_MOON.render();
+        }
     }
 
     @Override

@@ -15,9 +15,6 @@ import org.rajawali3d.math.Quaternion;
 import org.rajawali3d.math.vector.Vector2;
 import org.rajawali3d.math.vector.Vector3;
 
-/**
- * Created by root on 18/3/16.
- */
 public class MyArcballCamera extends Camera {
 
     private Context mContext;
@@ -40,15 +37,19 @@ public class MyArcballCamera extends Camera {
     private Vector3 mScratchVector;
     private double mStartFOV;
 
-    public MyArcballCamera(Context context, View view) {
-        this(context, view, null);
+    private RajaRenderer rajaRenderer;
+
+    public MyArcballCamera(Context context, View view, RajaRenderer rajaRenderer) {
+        this(context, view, null, rajaRenderer);
     }
 
-    public MyArcballCamera(Context context, View view, Object3D target) {
+
+    public MyArcballCamera(Context context, View view, Object3D target, RajaRenderer rajaRenderer) {
         super();
         mContext = context;
         mTarget = target;
         mView = view;
+        this.rajaRenderer = rajaRenderer;
         initialize();
         addListeners();
     }
@@ -210,6 +211,12 @@ public class MyArcballCamera extends Camera {
             updateRotation(event2.getX(), event2.getY());
             return false;
         }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            rajaRenderer.isSatelliteRotationEnabled = !rajaRenderer.isSatelliteRotationEnabled;
+            return super.onDoubleTap(e);
+        }
     }
 
     private class ScaleListener
@@ -223,6 +230,7 @@ public class MyArcballCamera extends Camera {
 
         @Override
         public boolean onScaleBegin(ScaleGestureDetector detector) {
+
             mIsScaling = true;
             mIsRotating = false;
             return super.onScaleBegin(detector);

@@ -9,15 +9,12 @@ import org.rajawali3d.scene.RajawaliScene;
 
 import java.util.Random;
 
-/**
- * Created by root on 20/3/16.
- */
 public class Star extends SpaceSphereElement {
 
     private static final int POWER_COEFF = 20;
 
-    public static Star STAR_SUN = new Star("SUN", 0.3f, origin, R.drawable.sun_texture_map);
-    public static Star STAR_SMALL = new Star("STAR", 0.001f, origin, R.drawable.star_text);
+    public static Star STAR_SUN = new Star("SUN", 0.3f, origin, R.drawable.sun_texture);
+    public static Star STAR_SMALL = new Star("STAR", 0.001f, origin, R.drawable.star_texture);
 
     private PointLight starLight;
 
