@@ -1,18 +1,20 @@
 package com.example.root.galaxyride;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.ViewGroup;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 import org.rajawali3d.surface.IRajawaliSurface;
 import org.rajawali3d.surface.RajawaliSurfaceView;
 
 public class MainActivity extends AppCompatActivity {
 
+    boolean isPlay = true;
     RajaRenderer renderer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +26,17 @@ public class MainActivity extends AppCompatActivity {
         surface.setRenderMode(IRajawaliSurface.RENDERMODE_WHEN_DIRTY);
 
         // Add mSurface to your root view
-        addContentView(surface, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT));
+        //addContentView(surface, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT));
+
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
+        relativeLayout.addView(surface);
+
         renderer = new RajaRenderer(this);
         surface.setSurfaceRenderer(renderer);
+
+        ImageButton pauseButton = (ImageButton) findViewById(R.id.pausebutton);
+        pauseButton.bringToFront();
+
     }
 
     @Override
@@ -55,5 +65,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return super.onTouchEvent(event);
+    }
+
+    public void handlePlayPause(View view) {
+        if (isPlay) {
+            isPlay = false;
+            renderer.isSatelliteRotationEnabled = false;
+            //Satellite.disableLights();
+            ImageButton imageButton = (ImageButton) view;
+            imageButton.setImageResource(R.drawable.play);
+        } else {
+            isPlay = true;
+            renderer.isSatelliteRotationEnabled = true;
+            //Satellite.disableLights();
+            ImageButton imageButton = (ImageButton) view;
+            imageButton.setImageResource(R.drawable.pause);
+        }
     }
 }

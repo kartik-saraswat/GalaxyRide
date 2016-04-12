@@ -211,12 +211,6 @@ public class MyArcballCamera extends Camera {
             updateRotation(event2.getX(), event2.getY());
             return false;
         }
-
-        @Override
-        public boolean onDoubleTap(MotionEvent e) {
-            rajaRenderer.isSatelliteRotationEnabled = !rajaRenderer.isSatelliteRotationEnabled;
-            return super.onDoubleTap(e);
-        }
     }
 
     private class ScaleListener

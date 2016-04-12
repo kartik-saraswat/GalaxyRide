@@ -4,36 +4,43 @@ import com.example.root.galaxyride.R;
 
 import org.rajawali3d.math.MathUtil;
 import org.rajawali3d.math.vector.Vector3;
+import org.rajawali3d.scene.RajawaliScene;
 
 import static com.example.root.galaxyride.elements.Star.STAR_SUN;
 
 public class Satellite extends SpaceSphereElement {
 
-    private final static int SPEED_LOWEST = 1;
-    private final static int SPEED_LOW = 2;
-    private final static int SPEED_NORMAL = 5;
-    private final static int SPEED_HIGH = 4;
-    private final static int SPEED_HIGHEST = 5;
+    private final static int SPEED_LEVEL_1 = 1;
+    private final static int SPEED_LEVEL_2 = 2;
+    private final static int SPEED_LEVEL_3 = 3;
+    private final static int SPEED_LEVEL_4 = 4;
+    private final static int SPEED_LEVEL_5 = 5;
+    private final static int SPEED_LEVEL_6 = 6;
+    private final static int SPEED_LEVEL_7 = 7;
+    private final static int SPEED_LEVEL_8 = 8;
 
-    public static Satellite PLANET_MERCURY = new Satellite("MERCURY", 0.02f, new Vector3(-0.3f, 0.0f, -0.3f), R.drawable.mercury_texture);
-    public static Satellite PLANET_VENUS = new Satellite("VENUS", 0.05f, new Vector3(-0.3f, 0.0f, 0.5f), R.drawable.venus_texture);
-    public static Satellite PLANET_EARTH = new Satellite("EARTH", 0.055f, new Vector3(0.4f, 0.0f, 0.5f), R.drawable.earth_texture);
-    public static Satellite PLANET_MARS = new Satellite("MARS", 0.03f, new Vector3(0.4f, 0.0f, -0.5f), R.drawable.mars_texture);
-    public static Satellite PLANET_JUPITER = new Satellite("JUPITER", 0.08f, new Vector3(0.7f, 0.0f, -0.7f), R.drawable.jupiter_texture);
-    public static Satellite PLANET_SATURN = new Satellite("SATURN", 0.08f, new Vector3(-0.8f, 0.0f, -0.8f), R.drawable.saturn_texture);
-    public static Satellite PLANET_URANUS = new Satellite("URANUS", 0.08f, new Vector3(0.9f, 0.0f, -0.8f), R.drawable.uranus_texture);
-    public static Satellite PLANET_NEPTUNE = new Satellite("NEPTUNE", 0.07f, new Vector3(-0.9f, 0.0f, -0.9f), R.drawable.neptune_texture);
-    public static Satellite SATELLITE_MOON = new Satellite("MOON", 0.01f, new Vector3(0.4f, 0.0f, 0.5f + 0.08f), R.drawable.pluto_texture, PLANET_EARTH, SPEED_NORMAL);
+
+    public static Satellite PLANET_MERCURY = new Satellite("MERCURY", 0.02f, new Vector3(-0.3f, 0.0f, -0.3f), R.drawable.mercury_texture, SPEED_LEVEL_8);
+    public static Satellite PLANET_VENUS = new Satellite("VENUS", 0.05f, new Vector3(-0.3f, 0.0f, 0.5f), R.drawable.venus_texture, SPEED_LEVEL_7);
+    public static Satellite PLANET_EARTH = new Satellite("EARTH", 0.055f, new Vector3(0.4f, 0.0f, 0.5f), R.drawable.earth_texture, SPEED_LEVEL_6);
+    public static Satellite PLANET_MARS = new Satellite("MARS", 0.03f, new Vector3(0.4f, 0.0f, -0.5f), R.drawable.mars_texture, SPEED_LEVEL_5);
+    public static Satellite PLANET_JUPITER = new Satellite("JUPITER", 0.08f, new Vector3(0.7f, 0.0f, -0.7f), R.drawable.jupiter_texture, SPEED_LEVEL_4);
+    public static Satellite PLANET_SATURN = new Satellite("SATURN", 0.08f, new Vector3(-0.8f, 0.0f, -0.8f), R.drawable.saturn_texture, SPEED_LEVEL_3);
+    public static Satellite PLANET_URANUS = new Satellite("URANUS", 0.08f, new Vector3(0.9f, 0.0f, -0.8f), R.drawable.uranus_texture, SPEED_LEVEL_2);
+    public static Satellite PLANET_NEPTUNE = new Satellite("NEPTUNE", 0.07f, new Vector3(-1.1f, 0.0f, -1.1f), R.drawable.neptune_texture, SPEED_LEVEL_1);
+    public static Satellite SATELLITE_MOON = new Satellite("MOON", 0.01f, new Vector3(0.4f, 0.0f, 0.5f + 0.08f), R.drawable.pluto_texture, PLANET_EARTH, SPEED_LEVEL_6);
+
     boolean isRotating;
+
     private SpaceSphereElement aboutElement;
     private int speedOfRotation;
 
     public Satellite(String name, float radius, int texturedResourceId) {
-        this(name, radius, origin, texturedResourceId, STAR_SUN, SPEED_NORMAL);
+        this(name, radius, origin, texturedResourceId, STAR_SUN, SPEED_LEVEL_6);
     }
 
     public Satellite(String name, float radius, Vector3 initPosition, int texturedResourceId) {
-        this(name, radius, initPosition, texturedResourceId, STAR_SUN, SPEED_NORMAL);
+        this(name, radius, initPosition, texturedResourceId, STAR_SUN, SPEED_LEVEL_6);
     }
 
     public Satellite(String name, float radius, Vector3 initPosition, int texturedResourceId, int speedOfRotation) {
@@ -41,7 +48,7 @@ public class Satellite extends SpaceSphereElement {
     }
 
     public Satellite(String name, float radius, Vector3 initPosition, int texturedResourceId, SpaceSphereElement aboutElement) {
-        this(name, radius, initPosition, texturedResourceId, aboutElement, SPEED_NORMAL);
+        this(name, radius, initPosition, texturedResourceId, aboutElement, SPEED_LEVEL_6);
     }
 
     public Satellite(String name, float radius, Vector3 initPosition, int texturedResourceId, SpaceSphereElement aboutElement, int speedOfRotation) {
@@ -51,12 +58,19 @@ public class Satellite extends SpaceSphereElement {
         this.isRotating = true;
     }
 
+
+    @Override
+    public void addToScene(RajawaliScene rajawaliScene) {
+        super.addToScene(rajawaliScene);
+        this.getSphere().getMaterial().enableLighting(true);
+    }
+
     public int getSpeedOfRotation() {
         return speedOfRotation;
     }
 
     private double getInterpolatedTime() {
-        return speedOfRotation * 0.004;
+        return speedOfRotation * 0.005;
     }
 
     @Override

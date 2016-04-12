@@ -36,7 +36,7 @@ public class RajaRenderer extends RajawaliRenderer {
         initSatellites();
         initNames();
 
-        arcball = new MyArcballCamera(mContext, ((Activity) mContext).findViewById(R.id.relative_layout), this);
+        arcball = new MyArcballCamera(mContext, ((Activity) mContext).findViewById(R.id.main_layout), this);
         arcball.setPosition(0, 0, 4);
         getCurrentScene().replaceAndSwitchCamera(getCurrentCamera(), arcball);
     }
@@ -90,6 +90,8 @@ public class RajaRenderer extends RajawaliRenderer {
             PLANET_NEPTUNE.render();
             SATELLITE_MOON.render();
         }
+
+        getCurrentScene().resetGLState();
     }
 
     @Override

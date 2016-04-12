@@ -42,6 +42,7 @@ public class SpaceSphereElement {
     }
 
     public void initialize() {
+
         this.material.setDiffuseMethod(new DiffuseMethod.Lambert());
         this.material.setColor(0);
 
